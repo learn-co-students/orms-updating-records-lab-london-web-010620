@@ -39,6 +39,7 @@ class Student
         DB[:conn].execute(sql, self.name, self.grade)
   
         @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
+      end
     end
       
     
@@ -52,7 +53,7 @@ class Student
       id = row[0]
       name = row[1]
       grade = row[2]
-      self.new(id, name, grade)
+      self.new(name, grade, id)
     end
   
     def self.find_by_name(name)
@@ -63,7 +64,7 @@ class Student
         LIMIT 1
       SQL
   
-      DB[:conn].execute(sql,name).map do |row|
+      DB[:conn].execute(sql, name).map do |row|
         self.new_from_db(row)
       end.first
     end
@@ -73,10 +74,8 @@ class Student
       DB[:conn].execute(sql, self.name, self.grade, self.id)
     end
 
-  end 
 end
-end  
-  
+
 
 
 
